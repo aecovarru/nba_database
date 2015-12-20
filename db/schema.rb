@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150928023425) do
+ActiveRecord::Schema.define(version: 20150923184857) do
 
   create_table "actions", force: true do |t|
     t.integer  "game_id"
@@ -29,17 +29,17 @@ ActiveRecord::Schema.define(version: 20150928023425) do
     t.integer  "season_id"
     t.integer  "quarter"
     t.string   "time"
-    t.float    "total_win_percent",  limit: 24
+    t.float    "range",              limit: 24
+    t.integer  "total_bet"
     t.integer  "total_win_bet"
+    t.integer  "total_lose_bet"
+    t.float    "total_win_percent",  limit: 24
+    t.integer  "spread_bet"
+    t.integer  "spread_win_bet"
+    t.integer  "spread_lose_bet"
+    t.float    "spread_win_percent", limit: 24
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "total_lose_bet"
-    t.float    "total_bet",          limit: 24
-    t.integer  "spread_win_bet"
-    t.float    "spread_lose_bet",    limit: 24
-    t.float    "spread_win_percent", limit: 24
-    t.float    "spread_bet",         limit: 24
-    t.float    "range",              limit: 24
   end
 
   create_table "game_dates", force: true do |t|
@@ -47,7 +47,6 @@ ActiveRecord::Schema.define(version: 20150928023425) do
     t.string   "year"
     t.string   "month"
     t.string   "day"
-    t.string   "weekday"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -57,60 +56,21 @@ ActiveRecord::Schema.define(version: 20150928023425) do
     t.integer  "game_date_id"
     t.integer  "away_team_id"
     t.integer  "home_team_id"
-    t.float    "full_game_cl",               limit: 24
-    t.float    "first_half_cl",              limit: 24
-    t.float    "first_quarter_cl",           limit: 24
-    t.integer  "away_ranking"
-    t.integer  "home_ranking"
     t.integer  "away_rest"
     t.integer  "home_rest"
-    t.integer  "away_record"
-    t.integer  "home_record"
-    t.integer  "away_travel"
-    t.integer  "home_travel"
-    t.boolean  "weekend"
+    t.float    "away_full_game_ps",       limit: 24
+    t.float    "away_first_half_ps",      limit: 24
+    t.float    "home_first_half_ps",      limit: 24
+    t.float    "away_first_quarter_ps",   limit: 24
+    t.float    "home_first_quarter_ps",   limit: 24
+    t.float    "full_game_total_cl",      limit: 24
+    t.float    "full_game_spread_cl",     limit: 24
+    t.float    "first_half_total_cl",     limit: 24
+    t.float    "first_half_spread_cl",    limit: 24
+    t.float    "first_quarter_total_cl",  limit: 24
+    t.float    "first_quarter_spread_cl", limit: 24
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.float    "full_game_open",             limit: 24
-    t.float    "first_half_open",            limit: 24
-    t.float    "first_quarter_open",         limit: 24
-    t.float    "away_full_game_ps",          limit: 24
-    t.float    "home_full_game_ps",          limit: 24
-    t.float    "away_first_half_ps",         limit: 24
-    t.float    "home_first_half_ps",         limit: 24
-    t.float    "away_first_quarter_ps",      limit: 24
-    t.float    "home_first_quarter_ps",      limit: 24
-    t.float    "away_second_half_ps",        limit: 24
-    t.float    "home_second_half_ps",        limit: 24
-    t.float    "second_half_cl",             limit: 24
-    t.float    "second_half_open",           limit: 24
-    t.float    "away_ortg",                  limit: 24
-    t.float    "home_ortg",                  limit: 24
-    t.float    "full_game_poss",             limit: 24
-    t.float    "first_half_poss",            limit: 24
-    t.float    "second_half_poss",           limit: 24
-    t.float    "first_quarter_poss",         limit: 24
-    t.integer  "total_rest"
-    t.float    "away_full_game_score",       limit: 24
-    t.float    "home_full_game_score",       limit: 24
-    t.float    "away_first_half_score",      limit: 24
-    t.float    "home_first_half_score",      limit: 24
-    t.float    "away_second_half_score",     limit: 24
-    t.float    "home_second_half_score",     limit: 24
-    t.float    "away_first_quarter_score",   limit: 24
-    t.float    "home_first_quarter_score",   limit: 24
-    t.float    "full_game_spread",           limit: 24
-    t.float    "first_half_spread",          limit: 24
-    t.float    "second_half_spread",         limit: 24
-    t.float    "first_quarter_spread",       limit: 24
-    t.float    "away_full_game_score_2",     limit: 24
-    t.float    "home_full_game_score_2",     limit: 24
-    t.float    "away_first_half_score_2",    limit: 24
-    t.float    "home_first_half_score_2",    limit: 24
-    t.float    "away_second_half_score_2",   limit: 24
-    t.float    "home_second_half_score_2",   limit: 24
-    t.float    "away_first_quarter_score_2", limit: 24
-    t.float    "home_first_quarter_score_2", limit: 24
   end
 
   create_table "lineups", force: true do |t|
@@ -119,28 +79,23 @@ ActiveRecord::Schema.define(version: 20150928023425) do
     t.integer  "opponent_id"
     t.boolean  "home"
     t.integer  "quarter"
-    t.float    "mp",              limit: 24, default: 0.0
-    t.float    "fgm",             limit: 24, default: 0.0
-    t.float    "fga",             limit: 24, default: 0.0
-    t.float    "thpm",            limit: 24, default: 0.0
-    t.float    "thpa",            limit: 24, default: 0.0
-    t.float    "ftm",             limit: 24, default: 0.0
-    t.float    "fta",             limit: 24, default: 0.0
-    t.float    "orb",             limit: 24, default: 0.0
-    t.float    "drb",             limit: 24, default: 0.0
-    t.float    "ast",             limit: 24, default: 0.0
-    t.float    "stl",             limit: 24, default: 0.0
-    t.float    "blk",             limit: 24, default: 0.0
-    t.float    "tov",             limit: 24, default: 0.0
-    t.float    "pf",              limit: 24, default: 0.0
-    t.float    "pts",             limit: 24, default: 0.0
+    t.float    "mp",          limit: 24, default: 0.0
+    t.float    "fgm",         limit: 24, default: 0.0
+    t.float    "fga",         limit: 24, default: 0.0
+    t.float    "thpm",        limit: 24, default: 0.0
+    t.float    "thpa",        limit: 24, default: 0.0
+    t.float    "ftm",         limit: 24, default: 0.0
+    t.float    "fta",         limit: 24, default: 0.0
+    t.float    "orb",         limit: 24, default: 0.0
+    t.float    "drb",         limit: 24, default: 0.0
+    t.float    "ast",         limit: 24, default: 0.0
+    t.float    "stl",         limit: 24, default: 0.0
+    t.float    "blk",         limit: 24, default: 0.0
+    t.float    "tov",         limit: 24, default: 0.0
+    t.float    "pf",          limit: 24, default: 0.0
+    t.float    "pts",         limit: 24, default: 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.float    "poss",            limit: 24
-    t.float    "ortg",            limit: 24
-    t.integer  "rest"
-    t.boolean  "weekend"
-    t.float    "predicted_score", limit: 24
   end
 
   create_table "past_players", force: true do |t|
@@ -173,63 +128,21 @@ ActiveRecord::Schema.define(version: 20150928023425) do
     t.string   "name"
     t.string   "abbr"
     t.string   "city"
-    t.integer  "games",                     default: 0
-    t.float    "mp",             limit: 24, default: 0.0
-    t.float    "fgm",            limit: 24, default: 0.0
-    t.float    "fga",            limit: 24, default: 0.0
-    t.float    "thpm",           limit: 24, default: 0.0
-    t.float    "thpa",           limit: 24, default: 0.0
-    t.float    "ftm",            limit: 24, default: 0.0
-    t.float    "fta",            limit: 24, default: 0.0
-    t.float    "orb",            limit: 24, default: 0.0
-    t.float    "drb",            limit: 24, default: 0.0
-    t.float    "ast",            limit: 24, default: 0.0
-    t.float    "stl",            limit: 24, default: 0.0
-    t.float    "blk",            limit: 24, default: 0.0
-    t.float    "tov",            limit: 24, default: 0.0
-    t.float    "pf",             limit: 24, default: 0.0
-    t.float    "pts",            limit: 24, default: 0.0
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "off_ranking"
-    t.integer  "def_ranking"
-    t.integer  "pace_ranking"
-    t.integer  "win_ranking"
-    t.integer  "win"
-    t.integer  "loss"
-    t.float    "win_percentage", limit: 24
-  end
-
-  create_table "player_matchup_games", force: true do |t|
-    t.integer  "player_matchup_id"
-    t.string   "name"
-    t.string   "date"
-    t.integer  "GS"
-    t.float    "MP",                limit: 24
-    t.integer  "FG"
-    t.integer  "FGA"
-    t.float    "FGP",               limit: 24
-    t.integer  "ThP"
-    t.integer  "ThPA"
-    t.float    "ThPP",              limit: 24
-    t.integer  "FT"
-    t.integer  "FTA"
-    t.float    "FTP",               limit: 24
-    t.integer  "ORB"
-    t.integer  "DRB"
-    t.integer  "AST"
-    t.integer  "STL"
-    t.integer  "BLK"
-    t.integer  "TO"
-    t.integer  "PF"
-    t.integer  "PTS"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "player_matchups", force: true do |t|
-    t.integer  "player_one_id"
-    t.integer  "player_two_id"
+    t.float    "mp",         limit: 24, default: 0.0
+    t.float    "fgm",        limit: 24, default: 0.0
+    t.float    "fga",        limit: 24, default: 0.0
+    t.float    "thpm",       limit: 24, default: 0.0
+    t.float    "thpa",       limit: 24, default: 0.0
+    t.float    "ftm",        limit: 24, default: 0.0
+    t.float    "fta",        limit: 24, default: 0.0
+    t.float    "orb",        limit: 24, default: 0.0
+    t.float    "drb",        limit: 24, default: 0.0
+    t.float    "ast",        limit: 24, default: 0.0
+    t.float    "stl",        limit: 24, default: 0.0
+    t.float    "blk",        limit: 24, default: 0.0
+    t.float    "tov",        limit: 24, default: 0.0
+    t.float    "pf",         limit: 24, default: 0.0
+    t.float    "pts",        limit: 24, default: 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -282,7 +195,6 @@ ActiveRecord::Schema.define(version: 20150928023425) do
     t.float    "poss_percent",   limit: 24, default: 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.float    "ortg",           limit: 24
   end
 
   add_index "starters", ["alias"], name: "index_starters_on_alias", using: :btree
@@ -290,31 +202,27 @@ ActiveRecord::Schema.define(version: 20150928023425) do
   create_table "team_data", force: true do |t|
     t.integer  "game_date_id"
     t.integer  "past_team_id"
-    t.float    "full_game_base_ortg",       limit: 24
-    t.float    "full_game_base_drtg",       limit: 24
-    t.integer  "ranking"
     t.integer  "rest"
-    t.integer  "win"
-    t.integer  "loss"
-    t.float    "win_percentage",            limit: 24
+    t.float    "full_game_base_poss",       limit: 24
+    t.float    "full_game_season_poss",     limit: 24
+    t.float    "full_game_base_ortg",       limit: 24
+    t.float    "full_game_season_ortg",     limit: 24
+    t.float    "full_game_base_drtg",       limit: 24
+    t.float    "full_game_season_drtg",     limit: 24
+    t.float    "first_half_base_poss",      limit: 24
+    t.float    "first_half_season_poss",    limit: 24
+    t.float    "first_half_base_ortg",      limit: 24
+    t.float    "first_half_season_ortg",    limit: 24
+    t.float    "first_half_base_drtg",      limit: 24
+    t.float    "first_half_season_drtg",    limit: 24
+    t.float    "first_quarter_base_poss",   limit: 24
+    t.float    "first_quarter_season_poss", limit: 24
+    t.float    "first_quarter_base_ortg",   limit: 24
+    t.float    "first_quarter_season_ortg", limit: 24
+    t.float    "first_quarter_base_drtg",   limit: 24
+    t.float    "first_quarter_season_drtg", limit: 24
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.float    "full_game_base_poss",       limit: 24
-    t.float    "full_game_season_ortg",     limit: 24
-    t.float    "full_game_season_drtg",     limit: 24
-    t.float    "full_game_season_poss",     limit: 24
-    t.float    "first_half_base_ortg",      limit: 24
-    t.float    "first_half_base_drtg",      limit: 24
-    t.float    "first_half_base_poss",      limit: 24
-    t.float    "first_half_season_ortg",    limit: 24
-    t.float    "first_half_season_drtg",    limit: 24
-    t.float    "first_half_season_poss",    limit: 24
-    t.float    "first_quarter_base_ortg",   limit: 24
-    t.float    "first_quarter_base_drtg",   limit: 24
-    t.float    "first_quarter_base_poss",   limit: 24
-    t.float    "first_quarter_season_ortg", limit: 24
-    t.float    "first_quarter_season_drtg", limit: 24
-    t.float    "first_quarter_season_poss", limit: 24
   end
 
   add_index "team_data", ["game_date_id"], name: "index_team_data_on_game_date_id", using: :btree

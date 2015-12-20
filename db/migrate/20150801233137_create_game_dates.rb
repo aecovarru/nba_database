@@ -5,7 +5,6 @@ class CreateGameDates < ActiveRecord::Migration
     	t.string "year"
     	t.string "month"
     	t.string "day"
-    	t.string "weekday"
       t.timestamps
     end
 

@@ -6,9 +6,6 @@ class CreatePastTeams < ActiveRecord::Migration
     t.string "name"
     t.string "abbr"
     t.string "city"
-    t.float "base_ortg", :default => 0
-    t.float "base_drtg", :default => 0
-    t.integer "games", :default => 0
     t.float "mp", :default => 0
     t.float "fgm", :default => 0
     t.float "fga", :default => 0
